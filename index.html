@@ -435,14 +435,7 @@
   .label .row b { font-weight: 800; }
   .label .row:last-of-type { border-bottom: 5px solid #111; }
   .label .fine { font-size: 12.5px; line-height: 1.4; padding-top: 8px; }
-  .energy { display: grid; gap: 12px; margin-top: 26px; }
-  .energy-bar { display: flex; height: 16px; border-radius: 999px; overflow: hidden; gap: 2px; background: var(--line); }
-  .energy-bar div { height: 100%; }
-  .energy-legend { display: grid; gap: 8px; font-size: 15px; }
-  .energy-legend div { display: grid; grid-template-columns: 14px 1fr auto; gap: 10px; align-items: center; }
-  .energy-legend i { width: 12px; height: 12px; border-radius: 3px; }
-  .energy-legend b { font-family: var(--label); font-variant-numeric: tabular-nums; }
-  .disclaimer { margin-top: 22px; padding-top: 16px; border-top: 1px dashed var(--tan); font-size: 14.5px; color: var(--muted); }
+  .portion-tip { margin-top: 12px; font-size: 16px; }
 
   /* ---------- Quiz ---------- */
   .quiz { display: grid; gap: 12px; }
@@ -765,21 +758,8 @@
           </div>
         </div>
         <div>
-          <p class="lede">Los valores se calcularon a partir de la receta y su rendimiento teórico. Cambia la porción para ver cómo se escalan.</p>
-          <div class="energy">
-            <span class="eyebrow">¿De dónde viene la energía?</span>
-            <div class="energy-bar" role="img" aria-label="Carbohidratos 65 por ciento, grasa 23 por ciento, proteína 11 por ciento de la energía">
-              <div style="width:65.3%; background:var(--caramel)"></div>
-              <div style="width:23.4%; background:var(--brown)"></div>
-              <div style="width:11.3%; background:var(--green)"></div>
-            </div>
-            <div class="energy-legend">
-              <div><i style="background:var(--caramel)"></i><span>Carbohidratos (azúcares de la fruta y lactosa)</span><b>≈ 65 %</b></div>
-              <div><i style="background:var(--brown)"></i><span>Grasa</span><b>≈ 23 %</b></div>
-              <div><i style="background:var(--green)"></i><span>Proteína</span><b>≈ 11 %</b></div>
-            </div>
-          </div>
-          <p class="disclaimer">Estos valores no corresponden a un análisis de laboratorio. Deben revisarse al confirmar el peso final del producto. Porcentajes estimados con 4 kcal/g para proteína y carbohidratos, y 9 kcal/g para grasa.</p>
+          <p class="lede">Los valores se calcularon a partir de la receta y su rendimiento teórico. No corresponden a un análisis de laboratorio y deben revisarse al confirmar el peso final del producto.</p>
+          <p class="lede portion-tip">Cambia la porción para ver cómo se escalan.</p>
         </div>
       </div>
     </div>
