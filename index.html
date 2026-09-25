@@ -498,13 +498,6 @@
   .credit dd { margin: 0; font-weight: 600; }
   .foot-row { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 14px; margin-top: 40px; padding-top: 22px; border-top: 1px solid rgba(255, 243, 221, .22); }
   .thanks { font-size: 15px; color: #E6D9BF; }
-  .share {
-    font: 700 15px var(--body); cursor: pointer;
-    display: inline-flex; align-items: center; gap: 8px;
-    padding: 12px 18px; border-radius: 999px;
-    background: var(--cream-ink); color: var(--green-dark); border: 0;
-  }
-  .share svg { width: 18px; height: 18px; }
 
   @media (max-width: 600px) {
     body { font-size: 16.5px; }
@@ -833,10 +826,6 @@
     </div>
     <div class="foot-row">
       <p class="thanks">Gracias por visitar el stand y probar Datilatte.</p>
-      <button type="button" class="share" id="share" hidden>
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12v7a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1v-7M16 6l-4-4-4 4M12 2v13"/></svg>
-        <span>Compartir</span>
-      </button>
     </div>
   </div>
 </footer>
@@ -966,18 +955,6 @@
     document.querySelectorAll("#coccion, main section[id]").forEach(function (s) { io.observe(s); });
   }
 
-  // Share (only where the phone supports it)
-  var shareBtn = document.getElementById("share");
-  if (navigator.share) {
-    shareBtn.hidden = false;
-    shareBtn.addEventListener("click", function () {
-      navigator.share({
-        title: "Datilatte",
-        text: "Dulce de leche endulzado con dátiles, un proyecto de Tecnología de los Alimentos.",
-        url: location.href
-      }).catch(function () {});
-    });
-  }
 })();
 </script>
 
