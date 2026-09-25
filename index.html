@@ -405,13 +405,13 @@
   .tech-note p { font-size: 16px; }
 
   /* ---------- Process gallery ---------- */
-  .gallery { position: relative; margin-bottom: 40px; }
+  .gallery { position: relative; margin-bottom: 40px; --dur: 4s; }
   .track {
     display: flex; gap: 12px;
     overflow-x: auto; scroll-snap-type: x mandatory;
-    scroll-behavior: smooth; -webkit-overflow-scrolling: touch;
+    -webkit-overflow-scrolling: touch;
     scrollbar-width: none;
-    padding-bottom: 4px;
+    padding-bottom: 6px;
   }
   .track::-webkit-scrollbar { display: none; }
   .slide {
@@ -421,29 +421,56 @@
     border-radius: 22px; overflow: hidden;
     background: var(--surface); border: 1px solid var(--line);
     box-shadow: var(--shadow);
+    transform-origin: left center;
+    transition: transform .55s cubic-bezier(.2, .8, .2, 1), opacity .55s;
   }
+  .gallery.ready .slide:not(.is-active) { transform: scale(.93); opacity: .55; }
   .slide .media {
     aspect-ratio: 4 / 3; width: 100%;
     display: grid; place-items: center;
-    position: relative;
+    position: relative; overflow: hidden;
   }
-  .slide img.media { object-fit: cover; display: block; }
+  .slide .media img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .slide.is-active .media > * { animation: kenburns calc(var(--dur) + 2s) ease-out both; }
+  @keyframes kenburns {
+    from { transform: scale(1) translate(0, 0); }
+    to { transform: scale(1.12) translate(-2%, -1.5%); }
+  }
   .ph { background: radial-gradient(120% 90% at 30% 20%, var(--c1), var(--c2)); }
   .ph svg { width: 42%; height: auto; }
   .ph::after {
-    content: ""; position: absolute; inset: 0;
+    content: ""; position: absolute; inset: 0; pointer-events: none;
     background: radial-gradient(circle at 80% 110%, rgba(255, 243, 221, .18), transparent 55%);
   }
   .slide figcaption { display: grid; gap: 2px; padding: 14px 18px 16px; }
   .slide figcaption span { font-family: var(--label); font-size: 12px; font-weight: 800; letter-spacing: .12em; text-transform: uppercase; color: var(--green); }
   .slide figcaption b { font-size: 17.5px; }
-  .gallery-ctl { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-top: 14px; }
-  .dots { display: flex; gap: 8px; }
-  .dots button {
-    width: 10px; height: 10px; padding: 0; border-radius: 999px; border: 0;
-    background: var(--line); cursor: pointer; transition: width .25s, background-color .25s;
+  .slide.is-active figcaption > * { animation: capIn .6s cubic-bezier(.2, .8, .2, 1) both; }
+  .slide.is-active figcaption b { animation-delay: .08s; }
+  @keyframes capIn { from { transform: translateY(10px); } to { transform: none; } }
+
+  .gallery-ctl { display: flex; align-items: center; gap: 16px; margin-top: 14px; }
+  .bars { flex: 1; display: flex; gap: 6px; }
+  .bars button {
+    flex: 1; height: 22px; padding: 0; border: 0; background: none; cursor: pointer;
+    display: flex; align-items: center;
   }
-  .dots button[aria-current="true"] { width: 26px; background: var(--caramel); }
+  .bars button::before {
+    content: ""; display: block; width: 100%; height: 5px; border-radius: 999px;
+    background: var(--line);
+  }
+  .bars button i {
+    position: absolute; height: 5px; border-radius: 999px;
+    background: linear-gradient(90deg, var(--caramel-hi), var(--caramel));
+    transform-origin: left center; transform: scaleX(0);
+  }
+  .bars button { position: relative; }
+  .bars button i { left: 0; right: 0; }
+  .bars button.seen i,
+  .bars button[aria-current="true"] i { transform: scaleX(1); }
+  .gallery.auto .bars button[aria-current="true"] i { animation: fill var(--dur) linear both; }
+  .gallery.paused .bars button i { animation-play-state: paused; }
+  @keyframes fill { from { transform: scaleX(0); } to { transform: scaleX(1); } }
   .arrows { display: flex; gap: 8px; }
   .arrows button {
     width: 44px; height: 44px; border-radius: 50%; cursor: pointer;
@@ -750,38 +777,38 @@
       <div class="gallery" aria-roledescription="carrusel" aria-label="Fotos del proceso">
         <div class="track" id="track">
           <figure class="slide" id="slide1">
-            <!-- Photo: replace this div with <img class="media" src="fotos/paso-1.webp" alt="Remojar los dátiles" loading="lazy" decoding="async" width="1200" height="900"> -->
+            <!-- Photo: replace this div with <div class="media"><img src="fotos/paso-1.webp" alt="Remojar los dátiles" loading="lazy" decoding="async" width="1200" height="900"></div> -->
             <div class="media ph" style="--c1:#8A3A12; --c2:#5E2308" role="img" aria-label="Ilustración: Remojar los dátiles"><svg viewBox="0 0 100 100" fill="none" stroke="#FFF3DD" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"><path d="M14 50h72c0 20-16 34-36 34S14 70 14 50z"/><path d="M22 50c6-4 12-4 18 0s12 4 18 0 12-4 18 0"/><ellipse cx="38" cy="40" rx="9" ry="5" fill="#5A2410" stroke="none"/><ellipse cx="58" cy="38" rx="9" ry="5" fill="#6E3016" stroke="none"/><path d="M50 12c-4 6-6 10-6 13a6 6 0 0 0 12 0c0-3-2-7-6-13z"/></svg></div>
             <figcaption><span>Paso 1</span><b>Remojar los dátiles</b></figcaption>
           </figure>
           <figure class="slide" id="slide2">
-            <!-- Photo: replace this div with <img class="media" src="fotos/paso-2.webp" alt="Licuar con leche" loading="lazy" decoding="async" width="1200" height="900"> -->
+            <!-- Photo: replace this div with <div class="media"><img src="fotos/paso-2.webp" alt="Licuar con leche" loading="lazy" decoding="async" width="1200" height="900"></div> -->
             <div class="media ph" style="--c1:#A04715; --c2:#6E2C0C" role="img" aria-label="Ilustración: Licuar con leche"><svg viewBox="0 0 100 100" fill="none" stroke="#FFF3DD" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"><path d="M30 14h40l-5 50H35z"/><path d="M33 40h34" /><path d="M34 44c8 5 24 5 32 0l-2 18H36z" fill="#C9864F" stroke="none"/><rect x="28" y="64" width="44" height="20" rx="4"/><circle cx="50" cy="74" r="3"/><path d="M70 22h8v18h-7"/></svg></div>
             <figcaption><span>Paso 2</span><b>Licuar con leche</b></figcaption>
           </figure>
           <figure class="slide" id="slide3">
-            <!-- Photo: replace this div with <img class="media" src="fotos/paso-3.webp" alt="Incorporar el resto" loading="lazy" decoding="async" width="1200" height="900"> -->
+            <!-- Photo: replace this div with <div class="media"><img src="fotos/paso-3.webp" alt="Incorporar el resto" loading="lazy" decoding="async" width="1200" height="900"></div> -->
             <div class="media ph" style="--c1:#B8561A; --c2:#7A3310" role="img" aria-label="Ilustración: Incorporar el resto"><svg viewBox="0 0 100 100" fill="none" stroke="#FFF3DD" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"><path d="M22 34h28v50H22z"/><path d="M22 34l6-12h16l6 12"/><path d="M26 54h20"/><path d="M58 60h28l-3 24H61z"/><path d="M62 60c0-8 20-8 20 0" /><circle cx="68" cy="48" r="2" fill="#FFF3DD"/><circle cx="76" cy="42" r="2" fill="#FFF3DD"/><circle cx="72" cy="34" r="2" fill="#FFF3DD"/></svg></div>
             <figcaption><span>Paso 3</span><b>Incorporar el resto</b></figcaption>
           </figure>
           <figure class="slide" id="slide4">
-            <!-- Photo: replace this div with <img class="media" src="fotos/paso-4.webp" alt="Cocinar y agitar" loading="lazy" decoding="async" width="1200" height="900"> -->
+            <!-- Photo: replace this div with <div class="media"><img src="fotos/paso-4.webp" alt="Cocinar y agitar" loading="lazy" decoding="async" width="1200" height="900"></div> -->
             <div class="media ph" style="--c1:#C8781F; --c2:#8A3A12" role="img" aria-label="Ilustración: Cocinar y agitar"><svg viewBox="0 0 100 100" fill="none" stroke="#FFF3DD" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"><path d="M16 50h68v18a16 16 0 0 1-16 16H32a16 16 0 0 1-16-16z"/><path d="M8 54h8M84 54h8"/><path d="M60 50L76 12"/><path d="M36 38c-4-5 4-9 0-14M50 38c-4-5 4-9 0-14"/><path d="M30 92h40" /></svg></div>
             <figcaption><span>Paso 4</span><b>Cocinar y agitar</b></figcaption>
           </figure>
           <figure class="slide" id="slide5">
-            <!-- Photo: replace this div with <img class="media" src="fotos/paso-5.webp" alt="Añadir la vainilla" loading="lazy" decoding="async" width="1200" height="900"> -->
+            <!-- Photo: replace this div with <div class="media"><img src="fotos/paso-5.webp" alt="Añadir la vainilla" loading="lazy" decoding="async" width="1200" height="900"></div> -->
             <div class="media ph" style="--c1:#6B4424; --c2:#3B2414" role="img" aria-label="Ilustración: Añadir la vainilla"><svg viewBox="0 0 100 100" fill="none" stroke="#FFF3DD" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"><path d="M40 30h20v8l6 8v38a4 4 0 0 1-4 4H38a4 4 0 0 1-4-4V46l6-8z"/><path d="M42 14h16v16H42z"/><path d="M40 60h20"/><path d="M76 40c-3 5-5 8-5 10a5 5 0 0 0 10 0c0-2-2-5-5-10z" fill="#FFF3DD"/></svg></div>
             <figcaption><span>Paso 5</span><b>Añadir la vainilla</b></figcaption>
           </figure>
           <figure class="slide" id="slide6">
-            <!-- Photo: replace this div with <img class="media" src="fotos/paso-6.webp" alt="Enfriar y refrigerar" loading="lazy" decoding="async" width="1200" height="900"> -->
+            <!-- Photo: replace this div with <div class="media"><img src="fotos/paso-6.webp" alt="Enfriar y refrigerar" loading="lazy" decoding="async" width="1200" height="900"></div> -->
             <div class="media ph" style="--c1:#4E7A3C; --c2:#2E4A22" role="img" aria-label="Ilustración: Enfriar y refrigerar"><svg viewBox="0 0 100 100" fill="none" stroke="#FFF3DD" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"><path d="M50 12v76M17 31l66 38M17 69l66-38"/><path d="M42 18l8 8 8-8M42 82l8-8 8 8M18 42l11 3-3 11M82 58l-11-3 3-11M18 58l11-3-3-11M82 42l-11 3 3 11"/></svg></div>
             <figcaption><span>Paso 6</span><b>Enfriar y refrigerar</b></figcaption>
           </figure>
         </div>
         <div class="gallery-ctl">
-          <div class="dots" id="dots"></div>
+          <div class="bars" id="dots"></div>
           <div class="arrows">
             <button type="button" id="prev" aria-label="Foto anterior"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 18l-6-6 6-6"/></svg></button>
             <button type="button" id="next" aria-label="Foto siguiente"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 18l6-6-6-6"/></svg></button>
@@ -996,60 +1023,75 @@
   } else { autoplay(); }
 
   // Process gallery
+  var gallery = document.querySelector(".gallery");
   var track = document.getElementById("track");
   var slides = track.querySelectorAll(".slide");
-  var dotsEl = document.getElementById("dots");
+  var barsEl = document.getElementById("dots");
   var prev = document.getElementById("prev"), next = document.getElementById("next");
-  var current = 0;
+  var current = -1;
   slides.forEach(function (sl, i) {
-    var d = document.createElement("button");
-    d.type = "button";
-    d.setAttribute("aria-label", "Ir al paso " + (i + 1));
-    d.addEventListener("click", function () { go(i); });
-    dotsEl.appendChild(d);
+    var b = document.createElement("button");
+    b.type = "button";
+    b.setAttribute("aria-label", "Ir al paso " + (i + 1));
+    b.appendChild(document.createElement("i"));
+    b.addEventListener("click", function () { stopAuto(); go(i); });
+    barsEl.appendChild(b);
   });
-  function go(i) {
-    i = Math.max(0, Math.min(slides.length - 1, i));
+  var bars = barsEl.querySelectorAll("button");
+  function setActive(i) {
+    if (i === current) return;
     current = i;
+    slides.forEach(function (sl, k) { sl.classList.toggle("is-active", k === i); });
+    bars.forEach(function (b, k) {
+      b.setAttribute("aria-current", String(k === i));
+      b.classList.toggle("seen", k < i);
+    });
+  }
+  function go(i) {
+    i = (i + slides.length) % slides.length;
+    setActive(i);
     var left = Math.min(slides[i].offsetLeft - track.offsetLeft, track.scrollWidth - track.clientWidth);
     if ("scrollBehavior" in document.documentElement.style) track.scrollTo({ left: left, behavior: "smooth" });
     else track.scrollLeft = left;
   }
-  function sync() {
+  function nearest() {
     var x = track.scrollLeft, best = 0, bestD = Infinity;
     slides.forEach(function (sl, i) {
       var d = Math.abs(sl.offsetLeft - track.offsetLeft - x);
       if (d < bestD) { bestD = d; best = i; }
     });
     if (track.scrollLeft + track.clientWidth >= track.scrollWidth - 4) best = slides.length - 1;
-    current = best;
-    dotsEl.querySelectorAll("button").forEach(function (b, i) { b.setAttribute("aria-current", String(i === current)); });
+    return best;
   }
-  var raf = 0;
-  track.addEventListener("scroll", function () { cancelAnimationFrame(raf); raf = requestAnimationFrame(sync); }, { passive: true });
-  prev.addEventListener("click", function () { stopAuto(); go(current === 0 ? slides.length - 1 : current - 1); });
-  next.addEventListener("click", function () { stopAuto(); go(current === slides.length - 1 ? 0 : current + 1); });
-  sync();
+  // Update only once scrolling settles, so a smooth jump from 6 back to 1 doesn't flash the slides in between
+  var settle = 0;
+  track.addEventListener("scroll", function () {
+    clearTimeout(settle);
+    settle = setTimeout(function () { setActive(nearest()); }, 90);
+  }, { passive: true });
+  prev.addEventListener("click", function () { stopAuto(); go(current - 1); });
+  next.addEventListener("click", function () { stopAuto(); go(current + 1); });
+  setActive(0);
+  gallery.classList.add("ready");
 
-  // Auto-advance while visible; any touch or click stops it for good
-  var timer = null, userStopped = false, inView = false;
-  function tick() { go(current >= slides.length - 1 ? 0 : current + 1); }
-  function startAuto() { if (!timer && !userStopped && inView) timer = setInterval(tick, 3500); }
-  function pauseAuto() { clearInterval(timer); timer = null; }
-  function stopAuto() { userStopped = true; pauseAuto(); }
-  ["pointerdown", "touchstart", "wheel", "keydown"].forEach(function (ev) {
-    track.addEventListener(ev, stopAuto, { passive: true });
-  });
-  dotsEl.addEventListener("click", stopAuto);
+  // Stories-style autoplay: the filling bar drives the timing; any touch stops it for good
   var reduceMotion = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  function stopAuto() { gallery.classList.remove("auto"); }
   if (!reduceMotion && "IntersectionObserver" in window) {
+    gallery.classList.add("auto", "paused");
+    barsEl.addEventListener("animationend", function (e) {
+      if (gallery.classList.contains("auto") && e.target === bars[current].firstChild) go(current + 1);
+    });
+    ["pointerdown", "touchstart", "wheel", "keydown"].forEach(function (ev) {
+      track.addEventListener(ev, stopAuto, { passive: true });
+    });
+    var inView = false;
+    function updatePause() { gallery.classList.toggle("paused", !inView || document.hidden); }
     new IntersectionObserver(function (entries) {
       inView = entries[0].isIntersecting;
-      if (inView) startAuto(); else pauseAuto();
+      updatePause();
     }, { threshold: 0.6 }).observe(track);
-    document.addEventListener("visibilitychange", function () {
-      if (document.hidden) pauseAuto(); else startAuto();
-    });
+    document.addEventListener("visibilitychange", updatePause);
   }
 
   // Portion scaling (reference: 30 g)
