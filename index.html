@@ -450,7 +450,7 @@
     border: 1.5px solid var(--line); background: var(--surface); color: var(--ink);
     display: grid; place-items: center;
   }
-  .arrows button:disabled { opacity: .35; cursor: default; }
+  .arrows button:active { transform: scale(.94); }
   .arrows svg { width: 20px; height: 20px; }
 
   /* ---------- Nutrition ---------- */
@@ -1010,7 +1010,10 @@
   });
   function go(i) {
     i = Math.max(0, Math.min(slides.length - 1, i));
-    track.scrollTo({ left: slides[i].offsetLeft - track.offsetLeft, behavior: "smooth" });
+    current = i;
+    var left = Math.min(slides[i].offsetLeft - track.offsetLeft, track.scrollWidth - track.clientWidth);
+    if ("scrollBehavior" in document.documentElement.style) track.scrollTo({ left: left, behavior: "smooth" });
+    else track.scrollLeft = left;
   }
   function sync() {
     var x = track.scrollLeft, best = 0, bestD = Infinity;
@@ -1021,13 +1024,11 @@
     if (track.scrollLeft + track.clientWidth >= track.scrollWidth - 4) best = slides.length - 1;
     current = best;
     dotsEl.querySelectorAll("button").forEach(function (b, i) { b.setAttribute("aria-current", String(i === current)); });
-    prev.disabled = current === 0;
-    next.disabled = current === slides.length - 1;
   }
   var raf = 0;
   track.addEventListener("scroll", function () { cancelAnimationFrame(raf); raf = requestAnimationFrame(sync); }, { passive: true });
-  prev.addEventListener("click", function () { stopAuto(); go(current - 1); });
-  next.addEventListener("click", function () { stopAuto(); go(current + 1); });
+  prev.addEventListener("click", function () { stopAuto(); go(current === 0 ? slides.length - 1 : current - 1); });
+  next.addEventListener("click", function () { stopAuto(); go(current === slides.length - 1 ? 0 : current + 1); });
   sync();
 
   // Auto-advance while visible; any touch or click stops it for good
