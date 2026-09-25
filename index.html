@@ -1026,9 +1026,30 @@
   }
   var raf = 0;
   track.addEventListener("scroll", function () { cancelAnimationFrame(raf); raf = requestAnimationFrame(sync); }, { passive: true });
-  prev.addEventListener("click", function () { go(current - 1); });
-  next.addEventListener("click", function () { go(current + 1); });
+  prev.addEventListener("click", function () { stopAuto(); go(current - 1); });
+  next.addEventListener("click", function () { stopAuto(); go(current + 1); });
   sync();
+
+  // Auto-advance while visible; any touch or click stops it for good
+  var timer = null, userStopped = false, inView = false;
+  function tick() { go(current >= slides.length - 1 ? 0 : current + 1); }
+  function startAuto() { if (!timer && !userStopped && inView) timer = setInterval(tick, 3500); }
+  function pauseAuto() { clearInterval(timer); timer = null; }
+  function stopAuto() { userStopped = true; pauseAuto(); }
+  ["pointerdown", "touchstart", "wheel", "keydown"].forEach(function (ev) {
+    track.addEventListener(ev, stopAuto, { passive: true });
+  });
+  dotsEl.addEventListener("click", stopAuto);
+  var reduceMotion = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  if (!reduceMotion && "IntersectionObserver" in window) {
+    new IntersectionObserver(function (entries) {
+      inView = entries[0].isIntersecting;
+      if (inView) startAuto(); else pauseAuto();
+    }, { threshold: 0.6 }).observe(track);
+    document.addEventListener("visibilitychange", function () {
+      if (document.hidden) pauseAuto(); else startAuto();
+    });
+  }
 
   // Portion scaling (reference: 30 g)
   var ref = { kcal: 40, prot: 1.18, carb: 6.83, fat: 1.09 };
