@@ -415,7 +415,7 @@
   }
   .track::-webkit-scrollbar { display: none; }
   .slide {
-    flex: 0 0 min(86%, 440px);
+    flex: 0 0 min(80%, 360px);
     scroll-snap-align: start;
     margin: 0;
     border-radius: 22px; overflow: hidden;
@@ -426,9 +426,10 @@
   }
   .gallery.ready .slide:not(.is-active) { transform: scale(.93); opacity: .55; }
   .slide .media {
-    aspect-ratio: 4 / 3; width: 100%;
+    aspect-ratio: 4 / 5; width: 100%;
     display: grid; place-items: center;
     position: relative; overflow: hidden;
+    background: #D9C6A5;
   }
   .slide .media img { width: 100%; height: 100%; object-fit: cover; display: block; }
   .slide.is-active .media > * { animation: kenburns calc(var(--dur) + 2s) ease-out both; }
@@ -774,35 +775,33 @@
         <span class="eyebrow"><svg fill="#4C7A2F" aria-hidden="true"><use href="#leaf"/></svg>Paso a paso</span>
         <h2 class="title">Cómo se elabora</h2>
       </div>
-      <div class="gallery" aria-roledescription="carrusel" aria-label="Fotos del proceso">
+      <div class="gallery" aria-roledescription="carrusel" aria-label="Fotos del proceso de elaboración">
         <div class="track" id="track">
           <figure class="slide" id="slide1">
-            <!-- Photo: replace this div with <div class="media"><img src="fotos/paso-1.webp" alt="Remojar los dátiles" loading="lazy" decoding="async" width="1200" height="900"></div> -->
-            <div class="media ph" style="--c1:#8A3A12; --c2:#5E2308" role="img" aria-label="Ilustración: Remojar los dátiles"><svg viewBox="0 0 100 100" fill="none" stroke="#FFF3DD" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"><path d="M14 50h72c0 20-16 34-36 34S14 70 14 50z"/><path d="M22 50c6-4 12-4 18 0s12 4 18 0 12-4 18 0"/><ellipse cx="38" cy="40" rx="9" ry="5" fill="#5A2410" stroke="none"/><ellipse cx="58" cy="38" rx="9" ry="5" fill="#6E3016" stroke="none"/><path d="M50 12c-4 6-6 10-6 13a6 6 0 0 0 12 0c0-3-2-7-6-13z"/></svg></div>
+            <div class="media"><img src="fotos/paso-1.webp" alt="Dátiles sin semilla remojándose en leche" width="720" height="900" loading="lazy" decoding="async"></div>
             <figcaption><span>Paso 1</span><b>Remojar los dátiles</b></figcaption>
           </figure>
           <figure class="slide" id="slide2">
-            <!-- Photo: replace this div with <div class="media"><img src="fotos/paso-2.webp" alt="Licuar con leche" loading="lazy" decoding="async" width="1200" height="900"></div> -->
-            <div class="media ph" style="--c1:#A04715; --c2:#6E2C0C" role="img" aria-label="Ilustración: Licuar con leche"><svg viewBox="0 0 100 100" fill="none" stroke="#FFF3DD" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"><path d="M30 14h40l-5 50H35z"/><path d="M33 40h34" /><path d="M34 44c8 5 24 5 32 0l-2 18H36z" fill="#C9864F" stroke="none"/><rect x="28" y="64" width="44" height="20" rx="4"/><circle cx="50" cy="74" r="3"/><path d="M70 22h8v18h-7"/></svg></div>
+            <div class="media"><img src="fotos/paso-2.webp" alt="Dátiles licuados con parte de la leche en la licuadora" width="720" height="900" loading="lazy" decoding="async"></div>
             <figcaption><span>Paso 2</span><b>Licuar con leche</b></figcaption>
           </figure>
           <figure class="slide" id="slide3">
-            <!-- Photo: replace this div with <div class="media"><img src="fotos/paso-3.webp" alt="Incorporar el resto" loading="lazy" decoding="async" width="1200" height="900"></div> -->
-            <div class="media ph" style="--c1:#B8561A; --c2:#7A3310" role="img" aria-label="Ilustración: Incorporar el resto"><svg viewBox="0 0 100 100" fill="none" stroke="#FFF3DD" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"><path d="M22 34h28v50H22z"/><path d="M22 34l6-12h16l6 12"/><path d="M26 54h20"/><path d="M58 60h28l-3 24H61z"/><path d="M62 60c0-8 20-8 20 0" /><circle cx="68" cy="48" r="2" fill="#FFF3DD"/><circle cx="76" cy="42" r="2" fill="#FFF3DD"/><circle cx="72" cy="34" r="2" fill="#FFF3DD"/></svg></div>
+            <div class="media"><img src="fotos/paso-3.webp" alt="Mezcla en la olla con la leche en polvo recién agregada" width="720" height="900" loading="lazy" decoding="async"></div>
             <figcaption><span>Paso 3</span><b>Incorporar el resto</b></figcaption>
           </figure>
           <figure class="slide" id="slide4">
-            <!-- Photo: replace this div with <div class="media"><img src="fotos/paso-4.webp" alt="Cocinar y agitar" loading="lazy" decoding="async" width="1200" height="900"></div> -->
-            <div class="media ph" style="--c1:#C8781F; --c2:#8A3A12" role="img" aria-label="Ilustración: Cocinar y agitar"><svg viewBox="0 0 100 100" fill="none" stroke="#FFF3DD" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"><path d="M16 50h68v18a16 16 0 0 1-16 16H32a16 16 0 0 1-16-16z"/><path d="M8 54h8M84 54h8"/><path d="M60 50L76 12"/><path d="M36 38c-4-5 4-9 0-14M50 38c-4-5 4-9 0-14"/><path d="M30 92h40" /></svg></div>
+            <div class="media"><img src="fotos/paso-4.webp" alt="Mezcla cocinándose mientras se revuelve" width="720" height="900" loading="lazy" decoding="async"></div>
             <figcaption><span>Paso 4</span><b>Cocinar y agitar</b></figcaption>
           </figure>
           <figure class="slide" id="slide5">
-            <!-- Photo: replace this div with <div class="media"><img src="fotos/paso-5.webp" alt="Añadir la vainilla" loading="lazy" decoding="async" width="1200" height="900"></div> -->
-            <div class="media ph" style="--c1:#6B4424; --c2:#3B2414" role="img" aria-label="Ilustración: Añadir la vainilla"><svg viewBox="0 0 100 100" fill="none" stroke="#FFF3DD" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"><path d="M40 30h20v8l6 8v38a4 4 0 0 1-4 4H38a4 4 0 0 1-4-4V46l6-8z"/><path d="M42 14h16v16H42z"/><path d="M40 60h20"/><path d="M76 40c-3 5-5 8-5 10a5 5 0 0 0 10 0c0-2-2-5-5-10z" fill="#FFF3DD"/></svg></div>
-            <figcaption><span>Paso 5</span><b>Añadir la vainilla</b></figcaption>
+            <div class="media"><img src="fotos/punto-final.webp" alt="Dulce de leche espeso en la olla al terminar la cocción" width="720" height="900" loading="lazy" decoding="async"></div>
+            <figcaption><span>Resultado</span><b>Punto final</b></figcaption>
           </figure>
           <figure class="slide" id="slide6">
-            <!-- Photo: replace this div with <div class="media"><img src="fotos/paso-6.webp" alt="Enfriar y refrigerar" loading="lazy" decoding="async" width="1200" height="900"></div> -->
+            <div class="media"><img src="fotos/porcionado.webp" alt="Porción servida con manga sobre una balanza" width="720" height="900" loading="lazy" decoding="async"></div>
+            <figcaption><span>Rendimiento</span><b>Porcionar y pesar</b></figcaption>
+          </figure>
+          <figure class="slide" id="slide7">
             <div class="media ph" style="--c1:#4E7A3C; --c2:#2E4A22" role="img" aria-label="Ilustración: Enfriar y refrigerar"><svg viewBox="0 0 100 100" fill="none" stroke="#FFF3DD" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"><path d="M50 12v76M17 31l66 38M17 69l66-38"/><path d="M42 18l8 8 8-8M42 82l8-8 8 8M18 42l11 3-3 11M82 58l-11-3 3-11M18 58l11-3-3-11M82 42l-11 3 3 11"/></svg></div>
             <figcaption><span>Paso 6</span><b>Enfriar y refrigerar</b></figcaption>
           </figure>
